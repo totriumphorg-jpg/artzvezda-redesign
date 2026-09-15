@@ -42,10 +42,7 @@ function Logo() {
   return (
     <a href="#top" className="logo" aria-label="Триумф — на главную">
       <span className="logo-symbol" aria-hidden="true">
-        <svg viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 20.4 46.8 1.5 34.2 17.1 50 14.5 25.5 36.5 29 23.1 2 20.4Z" fill="currentColor" />
-          <path d="M15.1 18.8 26.4 15.1 22.8 20.6 36.2 18.9 26.8 26.3" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
-        </svg>
+        <img src="/manus-storage/triumph-apple-icon_300635ba.png" alt="" />
       </span>
       <span className="logo-copy"><b>ТРИУМФ</b><small>творческое объединение</small></span>
     </a>

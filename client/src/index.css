@@ -18,7 +18,7 @@ button { border:0; cursor:pointer; }
 .header-inner { height:84px; padding:0 max(24px,calc((100vw - 1240px)/2)); margin:auto; display:flex; align-items:center; gap:42px; }
 .logo { display:inline-flex; gap:8px; align-items:center; flex-shrink:0; color:#2562ca; }
 .logo-symbol { height:35px; width:40px; display:grid; place-items:center; }
-.logo-symbol svg { width:40px; height:auto; }
+.logo-symbol img { display:block; width:40px; height:35px; object-fit:contain; }
 .logo-copy { display:flex; flex-direction:column; line-height:1; letter-spacing:.05em; }
 .logo-copy b { font-size:13px; font-weight:800; letter-spacing:.135em; }
 .logo-copy small { margin-top:4px; font-size:5.5px; letter-spacing:.105em; text-transform:uppercase; color:#5e8edc; white-space:nowrap; }
