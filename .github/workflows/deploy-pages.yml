@@ -34,7 +34,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build website
-        run: pnpm run build
+        run: VITE_BASE_PATH=/artzvezda-redesign/ pnpm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
