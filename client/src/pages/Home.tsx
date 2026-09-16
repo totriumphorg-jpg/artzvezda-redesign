@@ -42,7 +42,7 @@ function Logo() {
   return (
     <a href="#top" className="logo" aria-label="Триумф — на главную">
       <span className="logo-symbol" aria-hidden="true">
-        <img src="/manus-storage/triumph-apple-icon_300635ba.png" alt="" />
+        <img src="/assets/triumph-logo.png" alt="" />
       </span>
       <span className="logo-copy"><b>ТРИУМФ</b><small>творческое объединение</small></span>
     </a>
@@ -116,7 +116,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-image-wrap reveal delay-1">
-            <img src="/manus-storage/artzvezda-hero_bbf6cdaa.jpg" alt="Молодые артисты выступают на сцене" className="hero-image" />
+            <img src="/assets/artzvezda-hero.jpg" alt="Молодые артисты выступают на сцене" className="hero-image" />
             <div className="hero-image-overlay" />
             <div className="hero-sticker sticker-a"><Star fill="currentColor" size={16} /> открываем таланты</div>
             <div className="hero-figure-card"><span>2026</span><strong>AUTUMN<br />IN LONDON</strong></div>
@@ -150,7 +150,7 @@ export default function Home() {
             <h2>Искусство говорит<br /><em>на разных языках.</em></h2>
           </div>
           <div className="discipline-photo reveal delay-1">
-            <img src="/manus-storage/artzvezda-disciplines_56bbac60.jpg" alt="Предметы, представляющие различные виды искусства" />
+            <img src="/assets/artzvezda-disciplines.jpg" alt="Предметы, представляющие различные виды искусства" />
             <span className="photo-caption">ваша форма<br />выражения</span>
           </div>
           <div className="genre-list">
@@ -182,7 +182,7 @@ export default function Home() {
         </section>
 
         <section className="story section-grid">
-          <div className="story-photo reveal"><img src="/manus-storage/artzvezda-story_0cc132bb.jpg" alt="Юные творческие участники за кулисами" /></div>
+          <div className="story-photo reveal"><img src="/assets/artzvezda-story.jpg" alt="Юные творческие участники за кулисами" /></div>
           <div className="story-content reveal delay-1">
             <p className="section-kicker">Для участников и наставников</p>
             <h2>Ваш труд<br />должен быть <em>виден.</em></h2>
