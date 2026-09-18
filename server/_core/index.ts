@@ -1,20 +1,23 @@
+import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
-import path from "path";
-import { fileURLToPath } from "url";
+import net from "net";
 import cookieParser from "cookie-parser";
 import crypto from "crypto";
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import { registerOAuthRoutes } from "./oauth";
+import { registerStorageProxy } from "./storageProxy";
+import { appRouter } from "../routers";
+import { createContext } from "./context";
+import { serveStatic, setupVite } from "./vite";
 import {
-  createApplication,
-  getApplications,
-  getCompetitionContent,
-  saveCompetitionContent,
-  updateApplicationStatus,
-} from "./store";
-import { applicationsToCsv } from "./export";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+  getDbCompetition,
+  saveDbCompetition,
+  getDbApplications,
+  createDbApplication,
+  updateDbApplicationStatus,
+} from "../dbStore";
+import { applicationsToCsv } from "../export";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "artzvezda2026";
 const ADMIN_COOKIE = "artzvezda_admin_token";
@@ -33,30 +36,52 @@ function checkAdminAuth(req: express.Request, res: express.Response, next: expre
   return res.status(401).json({ error: "Unauthorized" });
 }
 
+function isPortAvailable(port: number): Promise<boolean> {
+  return new Promise(resolve => {
+    const server = net.createServer();
+    server.listen(port, () => {
+      server.close(() => resolve(true));
+    });
+    server.on("error", () => resolve(false));
+  });
+}
+
+async function findAvailablePort(startPort: number = 3000): Promise<number> {
+  for (let port = startPort; port < startPort + 20; port++) {
+    if (await isPortAvailable(port)) {
+      return port;
+    }
+  }
+  throw new Error(`No available port found starting from ${startPort}`);
+}
+
 async function startServer() {
   const app = express();
   const server = createServer(app);
-
-  app.use(express.json({ limit: "5mb" }));
-  app.use(express.urlencoded({ extended: true }));
+  // Configure body parser with larger size limit for file uploads
+  app.use(express.json({ limit: "50mb" }));
+  app.use(express.urlencoded({ limit: "50mb", extended: true }));
   app.use(cookieParser());
 
-  // Public competition content
-  app.get("/api/competition", (_req, res) => {
-    const data = getCompetitionContent();
-    const publicData = {
-      ...data,
-      paykeeper: {
-        enabled: data.paykeeper.enabled,
-        serverUrl: data.paykeeper.serverUrl ? "configured" : "",
-        serviceName: data.paykeeper.serviceName,
-      },
-    };
-    res.json(publicData);
+  // Public Competition API
+  app.get("/api/competition", async (_req, res) => {
+    try {
+      const data = await getDbCompetition();
+      res.json({
+        ...data,
+        paykeeper: {
+          enabled: data.paykeeper?.enabled,
+          serverUrl: data.paykeeper?.serverUrl ? "configured" : "",
+          serviceName: data.paykeeper?.serviceName,
+        },
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
   });
 
-  // Public application submission
-  app.post("/api/applications", (req, res) => {
+  // Public Applications Submission
+  app.post("/api/applications", async (req, res) => {
     try {
       const {
         participantName,
@@ -73,17 +98,16 @@ async function startServer() {
         collectiveInfo,
         videoLink1,
         videoLink2,
-        agreedToPolicy,
       } = req.body;
 
       if (!participantName || !email || !phone || !genre || !nomination) {
         return res.status(400).json({ error: "Заполните обязательные поля заявки" });
       }
 
-      const comp = getCompetitionContent();
+      const comp = await getDbCompetition();
       const amount = comp.priceDiscount || comp.priceRegular || 1300;
 
-      const appRecord = createApplication({
+      const appRecord = await createDbApplication({
         participantName: String(participantName).trim(),
         peopleCount: String(peopleCount || "1").trim(),
         genre: String(genre).trim(),
@@ -98,12 +122,11 @@ async function startServer() {
         collectiveInfo: String(collectiveInfo || "").trim(),
         videoLink1: String(videoLink1 || "").trim(),
         videoLink2: String(videoLink2 || "").trim(),
-        agreedToPolicy: Boolean(agreedToPolicy),
         paymentAmount: amount,
       });
 
       let paymentUrl = `/payment-success?paymentId=${appRecord.paymentId}`;
-      if (comp.paykeeper.enabled && comp.paykeeper.serverUrl) {
+      if (comp.paykeeper?.enabled && comp.paykeeper?.serverUrl) {
         const cleanServer = comp.paykeeper.serverUrl.replace(/\/+$/, "");
         paymentUrl = `${cleanServer}/create/?sum=${encodeURIComponent(
           amount
@@ -111,7 +134,7 @@ async function startServer() {
           appRecord.participantName
         )}&email=${encodeURIComponent(appRecord.email)}&phone=${encodeURIComponent(
           appRecord.phone
-        )}&service_name=${encodeURIComponent(comp.paykeeper.serviceName)}`;
+        )}&service_name=${encodeURIComponent(comp.paykeeper.serviceName || "Оплата взноса ART Звезда")}`;
       }
 
       res.status(201).json({
@@ -126,13 +149,13 @@ async function startServer() {
     }
   });
 
-  // PayKeeper POST callback notification
-  app.post("/api/paykeeper/callback", (req, res) => {
+  // PayKeeper POST callback
+  app.post("/api/paykeeper/callback", async (req, res) => {
     try {
       const { id, sum, clientid, orderid, key, service_name } = req.body;
-      const comp = getCompetitionContent();
+      const comp = await getDbCompetition();
 
-      if (comp.paykeeper.secretKey) {
+      if (comp.paykeeper?.secretKey) {
         const checkHash = crypto
           .createHash("md5")
           .update(`${id}${sum}${clientid}${orderid}${comp.paykeeper.secretKey}`)
@@ -143,20 +166,16 @@ async function startServer() {
         }
       }
 
-      const numericId = parseInt(orderid, 10);
-      if (!isNaN(numericId)) {
-        updateApplicationStatus(numericId, "paid", {
-          paykeeperPaymentId: id,
-          receivedSum: sum,
-          serviceName: service_name,
-          receivedAt: new Date().toISOString(),
-        });
-      }
+      await updateDbApplicationStatus(orderid, "paid", {
+        paykeeperPaymentId: id,
+        receivedSum: sum,
+        serviceName: service_name,
+        receivedAt: new Date().toISOString(),
+      });
 
-      // PayKeeper expects "OK <hash>"
       const responseHash = crypto
         .createHash("md5")
-        .update(`${id}${comp.paykeeper.secretKey || ""}`)
+        .update(`${id}${comp.paykeeper?.secretKey || ""}`)
         .digest("hex");
       return res.send(`OK ${responseHash}`);
     } catch (err: any) {
@@ -164,7 +183,7 @@ async function startServer() {
     }
   });
 
-  // Admin auth
+  // Admin Auth
   app.post("/api/admin/login", (req, res) => {
     const { password } = req.body;
     if (password === ADMIN_PASSWORD) {
@@ -190,30 +209,30 @@ async function startServer() {
     res.json({ success: true });
   });
 
-  // Admin content endpoints
-  app.get("/api/admin/competition", checkAdminAuth, (_req, res) => {
-    res.json(getCompetitionContent());
+  // Admin Endpoints
+  app.get("/api/admin/competition", checkAdminAuth, async (_req, res) => {
+    const comp = await getDbCompetition();
+    res.json(comp);
   });
 
-  app.put("/api/admin/competition", checkAdminAuth, (req, res) => {
+  app.put("/api/admin/competition", checkAdminAuth, async (req, res) => {
     try {
-      const updated = saveCompetitionContent(req.body);
+      const updated = await saveDbCompetition(req.body);
       res.json({ success: true, data: updated });
     } catch (err: any) {
-      res.status(500).json({ error: err.message || "Ошибка сохранения" });
+      res.status(500).json({ error: err.message });
     }
   });
 
-  // Admin applications & CSV
-  app.get("/api/admin/applications", checkAdminAuth, (req, res) => {
-    const apps = getApplications();
+  app.get("/api/admin/applications", checkAdminAuth, async (req, res) => {
+    const apps = await getDbApplications();
     const genre = req.query.genre ? String(req.query.genre) : null;
     const filtered = genre ? apps.filter((a) => a.genre === genre) : apps;
     res.json(filtered);
   });
 
-  app.get("/api/admin/applications/export.csv", checkAdminAuth, (req, res) => {
-    const apps = getApplications();
+  app.get("/api/admin/applications/export.csv", checkAdminAuth, async (req, res) => {
+    const apps = await getDbApplications();
     const genre = req.query.genre ? String(req.query.genre) : null;
     const filtered = genre ? apps.filter((a) => a.genre === genre) : apps;
     const csv = applicationsToCsv(filtered);
@@ -222,26 +241,37 @@ async function startServer() {
     res.send(csv);
   });
 
-  app.patch("/api/admin/applications/:id/status", checkAdminAuth, (req, res) => {
+  app.patch("/api/admin/applications/:id/status", checkAdminAuth, async (req, res) => {
     const id = parseInt(req.params.id, 10);
     const { status } = req.body;
-    const updated = updateApplicationStatus(id, status);
-    if (!updated) return res.status(404).json({ error: "Заявка не найдена" });
-    res.json(updated);
+    await updateDbApplicationStatus(id, status);
+    res.json({ success: true });
   });
 
-  // Static files and client-side routing
-  const staticPath =
-    process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "public")
-      : path.resolve(__dirname, "..", "dist", "public");
+  registerStorageProxy(app);
+  registerOAuthRoutes(app);
+  // tRPC API
+  app.use(
+    "/api/trpc",
+    createExpressMiddleware({
+      router: appRouter,
+      createContext,
+    })
+  );
+  // development mode uses Vite, production mode uses static files
+  if (process.env.NODE_ENV === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
 
-  app.use(express.static(staticPath));
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(staticPath, "index.html"));
-  });
+  const preferredPort = parseInt(process.env.PORT || "3000");
+  const port = await findAvailablePort(preferredPort);
 
-  const port = process.env.PORT || 3000;
+  if (port !== preferredPort) {
+    console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
+  }
+
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });

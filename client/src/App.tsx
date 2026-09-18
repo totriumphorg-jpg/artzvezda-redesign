@@ -5,13 +5,17 @@ import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-
+import AdminPage from "./pages/Admin";
+import PaymentSuccessPage from "./pages/PaymentSuccess";
 
 function AppRouter() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <WouterRouter base={import.meta.env.BASE_URL}>
       <Switch>
         <Route path={"/"} component={Home} />
+        <Route path={"/admin"} component={AdminPage} />
+        <Route path={"/payment-success"} component={PaymentSuccessPage} />
         <Route path={"/404"} component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />

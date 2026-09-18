@@ -1,0 +1,32 @@
+[
+  {
+    "participantName": "Ансамбль Вдохновение",
+    "peopleCount": "12",
+    "genre": "ТАНЦЕВАЛЬНОЕ ТВОРЧЕСТВО (соло, дуэты, малые формы (3-7 человек), ансамбли)",
+    "ageCategory": "",
+    "nomination": "Народный танец",
+    "email": "director@art-school.ru",
+    "phone": "+79111234567",
+    "institutionName": "ДШИ №1",
+    "institutionAddress": "г. Санкт-Петербург",
+    "directorName": "Иванова Мария Сергеевна",
+    "performanceTitle": "Северный хоровод",
+    "collectiveInfo": "",
+    "videoLink1": "https://rutube.ru/video/example",
+    "videoLink2": "",
+    "agreedToPolicy": false,
+    "paymentAmount": 1300,
+    "id": 59320,
+    "paymentId": "59320",
+    "status": "paid",
+    "createdAt": "2026-09-18T09:47:11.706Z",
+    "updatedAt": "2026-09-18T09:47:20.551Z",
+    "paymentDetails": {
+      "paykeeperPaymentId": "15425",
+      "receivedSum": "1300",
+      "serviceName": "Оплата участия",
+      "receivedAt": "2026-09-18T09:47:20.551Z"
+    },
+    "paidAt": "2026-09-18T09:47:20.551Z"
+  }
+]
