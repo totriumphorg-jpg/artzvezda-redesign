@@ -146,6 +146,11 @@ export default function Home() {
 
   return (
     <div className="landing-wrap" id="top">
+      <div className="ambient-canvas" aria-hidden="true">
+        <div className="ambient-orb orb-1" />
+        <div className="ambient-orb orb-2" />
+        <div className="ambient-orb orb-3" />
+      </div>
       <header className="site-header">
         <div className="header-inner">
           <Logo />
@@ -243,18 +248,24 @@ export default function Home() {
             <p>{comp.noticeText}</p>
           </div>
           <div className="trust-row">
-            <div>
-              <Globe2 className="w-5 h-5 text-blue-600 mb-2" />
+            <div className="trust-card">
+              <div className="trust-icon-wrap icon-blue">
+                <Globe2 className="w-5 h-5" />
+              </div>
               <strong>Международный диплом</strong>
               <span>На официальном бланке за подписью экспертного совета</span>
             </div>
-            <div>
-              <Award className="w-5 h-5 text-blue-600 mb-2" />
+            <div className="trust-card">
+              <div className="trust-icon-wrap icon-purple">
+                <Award className="w-5 h-5" />
+              </div>
               <strong>Экспертная оценка</strong>
               <span>Профильное жюри из Лондона и ведущих театров</span>
             </div>
-            <div>
-              <ShieldCheck className="w-5 h-5 text-blue-600 mb-2" />
+            <div className="trust-card">
+              <div className="trust-icon-wrap icon-coral">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
               <strong>Официальный статус</strong>
               <span>При поддержке комитетов культуры и образования</span>
             </div>
@@ -304,7 +315,7 @@ export default function Home() {
       <section className="directions section-grid" id="genres">
         <div className="directions-header">
           <span className="eyebrow">НОМИНАЦИИ</span>
-          <h2>Искусство говорит на разных языках.</h2>
+          <h2>Искусство говорит <span className="gradient-text italic font-serif">на разных языках</span>.</h2>
         </div>
         <div className="discipline-photo">
           <img src={ASSETS.disciplines} alt="Предметы искусства" />
@@ -314,7 +325,13 @@ export default function Home() {
           {GENRES.slice(0, 5).map((g, idx) => (
             <div key={idx} className="genre-item">
               <span className="genre-index">{`0${idx + 1}`}</span>
-              <span className="genre-icon"><Sparkles className="w-4 h-4 text-blue-600" /></span>
+              <span className={`genre-icon-badge badge-${idx + 1}`}>
+                {idx === 0 && <Sparkles className="w-4 h-4" />}
+                {idx === 1 && <Music2 className="w-4 h-4" />}
+                {idx === 2 && <Award className="w-4 h-4" />}
+                {idx === 3 && <Palette className="w-4 h-4" />}
+                {idx === 4 && <Theater className="w-4 h-4" />}
+              </span>
               <div className="genre-copy">
                 <h3>{g.split("(")[0]}</h3>
                 <p>{g.includes("(") ? `(${g.split("(")[1]}` : "Все исполнительские формы"}</p>
@@ -364,9 +381,12 @@ export default function Home() {
           <p className="text-slate-600 text-sm mt-3 leading-relaxed">
             Заполните форму участия. После нажатия «Отправить и оплатить» данные безопасно сохраняются в системе, а вы переходите к оплате организационного взноса.
           </p>
-          <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl mt-6 text-xs text-blue-900 leading-relaxed">
-            <strong>Организационный взнос: {comp.priceDiscount || 1300} ₽</strong>
-            <p className="mt-1">Для подтверждения льготного участия (790 ₽) напишите на hello@artzvezda.com.</p>
+          <div className="fee-highlight-card mt-6">
+            <div className="flex items-center gap-2 mb-1">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <strong className="text-sm font-black text-slate-900">Организационный взнос: {comp.priceDiscount || 1300} ₽</strong>
+            </div>
+            <p className="text-xs text-slate-600 mt-1">Для подтверждения льготного участия ({comp.priceReduced || 790} ₽) напишите на hello@artzvezda.com.</p>
           </div>
         </div>
 
