@@ -11,6 +11,10 @@ import {
   ShieldCheck,
   Award,
   Globe2,
+  Phone,
+  Mail,
+  Send,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -151,6 +155,7 @@ export default function Home() {
         <div className="ambient-orb orb-2" />
         <div className="ambient-orb orb-3" />
       </div>
+
       <header className="site-header">
         <div className="header-inner">
           <Logo />
@@ -160,10 +165,10 @@ export default function Home() {
             <a href="#genres">Номинации</a>
             <a href="#results">Итоги</a>
             <a href="#faq">Вопросы</a>
-            <a href="/admin" className="text-slate-400 hover:text-slate-900 transition-colors">Вход оргкомитета</a>
+            <a href="/admin" className="text-slate-500 hover:text-blue-700 transition-colors">Вход оргкомитета</a>
           </nav>
           <a href="#apply" className="button button-primary header-cta">
-            Подать заявку <ArrowRight className="w-3.5 h-3.5 inline ml-1" />
+            Подать заявку <ArrowRight className="w-4 h-4 inline ml-1.5" />
           </a>
           <button
             type="button"
@@ -205,7 +210,7 @@ export default function Home() {
           <div className="hero-details">
             <div>
               <span>СРОКИ ПРОВЕДЕНИЯ</span>
-              <strong>{comp.startDate ? `${comp.startDate} — ${comp.endDate}` : "9 сентября — 11 октября"}</strong>
+              <strong>{comp.startDate ? `${comp.startDate} — ${comp.endDate}` : "9 сентября — 11 октября 2026"}</strong>
             </div>
             <div>
               <span>ВЗНОС ЗА НОМИНАЦИЮ</span>
@@ -232,42 +237,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About Section - Wide Horizontal Card (No Empty Left Column) */}
       <section className="intro section-grid" id="about">
-        <div className="intro-side">
-          <span className="tag">ART ЗВЕЗДА / 2026</span>
-          <div className="intro-number">01</div>
-        </div>
-        <div>
-          <span className="eyebrow">О ТЕКУЩЕМ КОНКУРСЕ</span>
+        <div className="intro-card-wide">
+          <div className="intro-top-bar">
+            <span className="eyebrow m-0">О ТЕКУЩЕМ КОНКУРСЕ</span>
+            <div className="intro-stage-badge">
+              <span className="intro-stage-num">01</span>
+              <span>СЕЗОН 2026 · ART ЗВЕЗДА</span>
+            </div>
+          </div>
+
           <h2>
             {comp.title ? comp.title.split("«")[1]?.replace("»", "") || comp.title : "Autumn in London"}
           </h2>
-          <div className="intro-copy">
+
+          <div className="intro-copy-wide">
             <p>{comp.aboutText}</p>
-            <p>{comp.noticeText}</p>
+            <div className="intro-notice-box">
+              {comp.noticeText}
+            </div>
           </div>
+
           <div className="trust-row">
             <div className="trust-card">
               <div className="trust-icon-wrap icon-blue">
                 <Globe2 className="w-5 h-5" />
               </div>
               <strong>Международный диплом</strong>
-              <span>На официальном бланке за подписью экспертного совета</span>
+              <span>На официальном гербовом бланке за подписью экспертного совета</span>
             </div>
             <div className="trust-card">
               <div className="trust-icon-wrap icon-purple">
                 <Award className="w-5 h-5" />
               </div>
               <strong>Экспертная оценка</strong>
-              <span>Профильное жюри из Лондона и ведущих театров</span>
+              <span>Профильное жюри из Лондона и ведущих театров страны</span>
             </div>
             <div className="trust-card">
               <div className="trust-icon-wrap icon-coral">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <strong>Официальный статус</strong>
-              <span>При поддержке комитетов культуры и образования</span>
+              <span>При поддержке комитетов культуры и профильного образования</span>
             </div>
           </div>
         </div>
@@ -278,7 +290,7 @@ export default function Home() {
         <div className="rules-header">
           <span className="eyebrow">ОФИЦИАЛЬНАЯ ИНФОРМАЦИЯ</span>
           <h2>Положение конкурса</h2>
-          <p className="text-slate-600 text-sm mt-2 max-w-2xl">
+          <p>
             Все разделы положения сохранены в полном объёме с действующего сайта. Выберите интересующий подраздел:
           </p>
         </div>
@@ -297,16 +309,28 @@ export default function Home() {
           </div>
 
           <div className="rules-content-card">
-            {activeSection && (
-              <>
-                <h3>{activeSection.title}</h3>
-                <div className="rules-text-body">
-                  {activeSection.content.split("\n").map((par: string, idx: number) => (
-                    <p key={idx}>{par}</p>
-                  ))}
-                </div>
-              </>
-            )}
+            <div>
+              {activeSection && (
+                <>
+                  <h3>{activeSection.title}</h3>
+                  <div className="rules-text-body">
+                    {activeSection.content.split("\n").map((par: string, idx: number) => (
+                      <p key={idx}>{par}</p>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="rules-footer-note">
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-blue-600" />
+                <span>Официальная редакция регламента ТО «Триумф» · 2026 г.</span>
+              </div>
+              <a href="#faq" className="text-blue-700 hover:underline">
+                Частые вопросы по регламенту →
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -342,31 +366,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Results Section */}
+      {/* Results Section - Stretched Horizontally Without Empty Space */}
       <section className="results-section section-grid" id="results">
         <div className="results-header">
           <span className="eyebrow">ИТОГИ И РЕЗУЛЬТАТЫ</span>
           <h2>Результаты конкурсов</h2>
-          <p className="text-slate-600 text-sm mt-2">
+          <p>
             Результаты публикуются на сайте artzvezda.com и в официальной группе ВКонтакте, а персональные дипломы направляются участникам на почту.
           </p>
         </div>
 
-        <div className="results-grid">
+        <div className="results-grid-wide">
           {comp.results?.map((res: any, idx: number) => (
-            <div key={idx} className="result-card">
-              <span className="result-date">Дата публикации: {res.publishedDate}</span>
-              <h3>{res.title}</h3>
-              <p>{res.description}</p>
-              <div className="result-links">
-                {res.vkUrl && (
-                  <a href={res.vkUrl} target="_blank" rel="noreferrer" className="button button-ghost text-xs">
-                    Группа ВКонтакте <ExternalLink className="w-3.5 h-3.5 inline ml-1" />
+            <div key={idx} className="result-card-wide">
+              <div className="result-card-info">
+                <span className="result-date-badge">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Дата публикации: {res.publishedDate}
+                </span>
+                <h3>{res.title}</h3>
+                <p>{res.description}</p>
+              </div>
+
+              <div className="result-card-actions">
+                <div className="result-status-pill">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span>Протоколы жюри утверждены и разосланы</span>
+                </div>
+                <div className="result-links-wide">
+                  {res.vkUrl && (
+                    <a href={res.vkUrl} target="_blank" rel="noreferrer" className="button button-ghost text-xs">
+                      Группа ВКонтакте <ExternalLink className="w-3.5 h-3.5 inline ml-1.5" />
+                    </a>
+                  )}
+                  <a href="#apply" className="button button-primary text-xs">
+                    Подать заявку на сезон
                   </a>
-                )}
-                <a href="#apply" className="button button-primary text-xs">
-                  Подать заявку на следующий сезон
-                </a>
+                </div>
               </div>
             </div>
           ))}
@@ -378,15 +413,15 @@ export default function Home() {
         <div>
           <span className="eyebrow">ОФИЦИАЛЬНАЯ РЕГИСТРАЦИЯ</span>
           <h2>Заявка на конкурс</h2>
-          <p className="text-slate-600 text-sm mt-3 leading-relaxed">
+          <p className="mt-3 leading-relaxed">
             Заполните форму участия. После нажатия «Отправить и оплатить» данные безопасно сохраняются в системе, а вы переходите к оплате организационного взноса.
           </p>
           <div className="fee-highlight-card mt-6">
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="w-4 h-4 text-amber-500" />
-              <strong className="text-sm font-black text-slate-900">Организационный взнос: {comp.priceDiscount || 1300} ₽</strong>
+              <strong>Организационный взнос: {comp.priceDiscount || 1300} ₽</strong>
             </div>
-            <p className="text-xs text-slate-600 mt-1">Для подтверждения льготного участия ({comp.priceReduced || 790} ₽) напишите на hello@artzvezda.com.</p>
+            <p>Для подтверждения льготного участия ({comp.priceReduced || 790} ₽) напишите на hello@artzvezda.com.</p>
           </div>
         </div>
 
@@ -542,35 +577,36 @@ export default function Home() {
           </div>
 
           <div className="form-bottom field-full">
-            <label className="flex items-start gap-2 text-xs text-slate-600">
+            <label className="flex items-start gap-2.5 text-sm text-slate-700 font-medium">
               <input
                 type="checkbox"
                 required
                 checked={formData.agreedToPolicy}
                 onChange={(e) => setFormData({ ...formData, agreedToPolicy: e.target.checked })}
-                className="mt-0.5 rounded text-blue-600"
+                className="mt-1 rounded text-blue-600 w-4 h-4"
               />
               <span>
                 Согласие на обработку персональных данных в соответствии с политикой безопасности
               </span>
             </label>
-            <Button type="submit" disabled={submitting} className="button button-primary w-full mt-3">
+            <Button type="submit" disabled={submitting} className="button button-primary w-full mt-4 text-base py-4">
               {submitting ? "Сохранение заявки..." : "Отправить и оплатить →"}
             </Button>
           </div>
         </form>
       </section>
 
-      {/* FAQ Section */}
-      <section className="faq section-grid" id="faq">
-        <div>
+      {/* FAQ Section - Chess / 2-Column Staggered Grid */}
+      <section className="faq-section section-grid" id="faq">
+        <div className="faq-header">
           <span className="eyebrow">ОТВЕТЫ РЯДОМ</span>
           <h2>Частые вопросы</h2>
-          <p className="text-slate-600 text-sm mt-3">
+          <p>
             Вся актуальная информация о сроках, жюри и дипломах:
           </p>
         </div>
-        <div className="faq-list">
+
+        <div className="faq-grid-2col">
           {comp.faqs?.map((faq: any, idx: number) => (
             <div key={idx} className="faq-item">
               <button
@@ -579,7 +615,7 @@ export default function Home() {
                 aria-expanded={openFaq === idx}
               >
                 <span>{faq.question}</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${openFaq === idx ? "rotate-180" : ""}`} />
+                <ChevronDown className={`w-5 h-5 transition-transform flex-shrink-0 ${openFaq === idx ? "rotate-180" : ""}`} />
               </button>
               {openFaq === idx && <p>{faq.answer}</p>}
             </div>
@@ -587,30 +623,70 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-top">
-          <Logo />
-          <a href="#apply" className="button button-primary">Подать заявку</a>
-        </div>
-        <div className="footer-main">
-          <p>Конкурс, где юный талант получает право звучать громче.</p>
-          <div className="footer-links">
-            <a href="mailto:hello@artzvezda.com">hello@artzvezda.com</a>
-            <a href="tel:+78126002123">+7 (812) 600-21-23</a>
+      {/* Enriched & Revitalized Footer */}
+      <div className="footer-wrap section-grid">
+        <footer className="footer-revitalized">
+          <div className="footer-hero-bar">
+            <div className="footer-brand-side">
+              <Logo />
+              <div className="footer-live-badge">
+                <span className="footer-live-dot" />
+                <span>Приём заявок открыт онлайн 24/7</span>
+              </div>
+            </div>
+            <a href="#apply" className="button button-primary">
+              Подать заявку онлайн →
+            </a>
           </div>
-          <div className="footer-links">
-            <a href="https://vk.com/triumph_org" target="_blank" rel="noreferrer">ВКонтакте</a>
-            <a href="https://t.me/TO_Triumph" target="_blank" rel="noreferrer">Telegram</a>
-            <a href="/admin">Панель управления</a>
+
+          <div className="footer-main-grid">
+            <div className="footer-col footer-col-about">
+              <h4>Организатор конкурса</h4>
+              <p>
+                Творческое объединение «Триумф» — организатор всероссийских и международных фестивалей с 2006 года. Конкурс, где каждый юный талант получает право звучать громче.
+              </p>
+              <div className="footer-subtext">
+                Официальный портал проекта: artzvezda.com
+              </div>
+            </div>
+
+            <div className="footer-col">
+              <h4>Контакты оргкомитета</h4>
+              <div className="footer-contact-cards">
+                <a href="tel:+78126002123" className="contact-pill">
+                  <Phone className="w-4 h-4 text-blue-600" />
+                  <span>+7 (812) 600-21-23</span>
+                </a>
+                <a href="mailto:hello@artzvezda.com" className="contact-pill">
+                  <Mail className="w-4 h-4 text-blue-600" />
+                  <span>hello@artzvezda.com</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="footer-col">
+              <h4>Мы на связи</h4>
+              <div className="footer-social-row">
+                <a href="https://vk.com/triumph_org" target="_blank" rel="noreferrer" className="social-badge vk">
+                  ВКонтакте
+                </a>
+                <a href="https://t.me/TO_Triumph" target="_blank" rel="noreferrer" className="social-badge tg">
+                  <Send className="w-3.5 h-3.5 mr-1" /> Telegram
+                </a>
+                <a href="/admin" className="social-badge admin-link">
+                  Панель управления
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© 2026 ART ЗВЕЗДА</span>
-          <span>Творческое объединение «Триумф»</span>
-          <a href="#top">Наверх ↑</a>
-        </div>
-      </footer>
+
+          <div className="footer-bottom-bar">
+            <span>© 2026 ART ЗВЕЗДА · Все права защищены</span>
+            <span>Творческое объединение «Триумф»</span>
+            <a href="#top">Наверх ↑</a>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
