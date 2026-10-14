@@ -17,12 +17,12 @@ export default function PaymentSuccessPage() {
         <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-3">
           Заявка зарегистрирована
         </span>
-        <h1 className="text-2xl font-black text-slate-900 mb-2">Оплата принята</h1>
-        <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-          Спасибо! Номер вашей заявки и платежа: <strong className="text-slate-900">№{paymentId}</strong>. На указанную электронную почту направлены подтверждение участия и официальный кассовый чек.
+        <h1 className="text-2xl font-black text-[#123e80] mb-2">Оплата принята</h1>
+        <p className="text-sm text-[#285aa5] mb-6 leading-relaxed">
+          Спасибо! Номер вашей заявки и платежа: <strong className="text-[#123e80]">№{paymentId}</strong>. На указанную электронную почту направлены подтверждение участия и официальный кассовый чек.
         </p>
 
-        <div className="w-full bg-slate-50 rounded-2xl p-4 text-left border border-slate-200 mb-6 text-xs text-slate-600 flex flex-col gap-2.5">
+        <div className="w-full bg-slate-50 rounded-2xl p-4 text-left border border-slate-200 mb-6 text-xs text-[#285aa5] flex flex-col gap-2.5">
           <div className="flex items-center gap-2">
             <Mail className="w-4 h-4 text-blue-600" />
             <span>Письмо с подтверждением сформировано</span>

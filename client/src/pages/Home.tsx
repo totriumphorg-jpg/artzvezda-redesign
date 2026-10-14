@@ -165,7 +165,7 @@ export default function Home() {
             <a href="#genres">Номинации</a>
             <a href="#results">Итоги</a>
             <a href="#faq">Вопросы</a>
-            <a href="/admin" className="text-slate-500 hover:text-blue-700 transition-colors">Вход оргкомитета</a>
+            <a href="/admin" className="text-[#3a6cb2] hover:text-blue-700 transition-colors">Вход оргкомитета</a>
           </nav>
           <a href="#apply" className="button button-primary header-cta">
             Подать заявку <ArrowRight className="w-4 h-4 inline ml-1.5" />
@@ -214,7 +214,7 @@ export default function Home() {
             </div>
             <div>
               <span>ВЗНОС ЗА НОМИНАЦИЮ</span>
-              <strong>{comp.priceDiscount || 1300} ₽ <span className="line-through text-slate-400 font-normal">{comp.priceRegular || 1700} ₽</span></strong>
+              <strong>{comp.priceDiscount || 1300} ₽ <span className="line-through text-[#5b7fba] font-normal">{comp.priceRegular || 1700} ₽</span></strong>
             </div>
             <div>
               <span>ФОРМАТ</span>
@@ -577,7 +577,7 @@ export default function Home() {
           </div>
 
           <div className="form-bottom field-full">
-            <label className="flex items-start gap-2.5 text-sm text-slate-700 font-medium">
+            <label className="flex items-start gap-2.5 text-sm text-[#1d4f98] font-medium">
               <input
                 type="checkbox"
                 required
