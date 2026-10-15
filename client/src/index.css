@@ -103,9 +103,9 @@ body {
 }
 
 .section-grid {
-  max-width: 1240px;
+  max-width: 1480px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 28px;
 }
 
 /* Glass Header */
@@ -122,7 +122,7 @@ body {
 }
 
 .header-inner {
-  max-width: 1240px;
+  max-width: 1480px;
   margin: 0 auto;
   padding: 0 20px;
   height: 76px;
@@ -134,22 +134,20 @@ body {
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 14px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
-.logo-symbol {
-  height: 44px;
-  width: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-symbol img {
-  height: 100%;
-  width: auto;
+.official-logo {
+  display: block;
+  width: 178px;
+  height: auto;
+  max-height: 48px;
   object-fit: contain;
+}
+
+.footer-brand-side .official-logo {
+  width: 178px;
 }
 
 .brand-copy {
@@ -1078,10 +1076,8 @@ body {
 }
 
 .faq-grid-2col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  align-items: start;
+  columns: 2 380px;
+  column-gap: 20px;
 }
 
 .faq-item {
@@ -1092,6 +1088,8 @@ body {
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(18, 62, 128, 0.04);
   transition: all 0.2s ease;
+  break-inside: avoid;
+  margin: 0 0 20px;
 }
 
 .faq-item:hover {
@@ -1399,7 +1397,7 @@ body {
     grid-template-columns: 1fr;
   }
   .faq-grid-2col {
-    grid-template-columns: 1fr;
+    columns: 1;
   }
   .footer-main-grid {
     grid-template-columns: 1fr;

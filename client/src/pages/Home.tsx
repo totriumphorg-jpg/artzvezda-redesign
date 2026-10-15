@@ -46,19 +46,13 @@ const AGE_GROUPS = [
 const ASSETS = {
   hero: "/manus-storage/artzvezda-hero_70ad2501.jpg",
   disciplines: "/manus-storage/artzvezda-disciplines_ab424650.jpg",
-  triumphLogo: "/manus-storage/triumph-apple-icon_4dcb1a83.png",
+  triumphLogo: "/manus-storage/triumph-official_aaece090.svg",
 };
 
 function Logo() {
   return (
     <a href="#top" className="brand-logo" aria-label="Триумф — на главную">
-      <div className="logo-symbol">
-        <img src={ASSETS.triumphLogo} alt="Логотип Творческого объединения Триумф" />
-      </div>
-      <div className="brand-copy">
-        <span className="brand-title">ТРИУМФ</span>
-        <span className="brand-sub">творческое объединение</span>
-      </div>
+      <img className="official-logo" src={ASSETS.triumphLogo} alt="Логотип Творческого объединения Триумф" />
     </a>
   );
 }

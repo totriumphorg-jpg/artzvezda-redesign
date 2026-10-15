@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+const OFFICIAL_LOGO = "/manus-storage/triumph-official_aaece090.svg";
+
 export default function Admin() {
   const [auth, setAuth] = useState(false);
   const [password, setPassword] = useState("");
@@ -130,9 +132,7 @@ export default function Admin() {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <form onSubmit={handleLogin} className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-lg border border-slate-200">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black text-lg shadow-md shadow-blue-500/20">
-              AZ
-            </div>
+            <img src={OFFICIAL_LOGO} alt="Творческое объединение Триумф" className="h-12 w-auto max-w-[210px] object-contain" />
             <div>
               <h1 className="text-2xl font-black text-[#123e80]">Управление ART Звезда</h1>
               <p className="text-sm font-semibold text-[#1d4f98]">Официальная панель оргкомитета конкурса</p>
@@ -176,9 +176,9 @@ export default function Admin() {
     <div className="min-h-screen bg-slate-100/80 flex flex-col font-sans text-[#123e80]">
       <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between sticky top-0 z-30 shadow-xs">
         <div className="flex items-center gap-4">
-          <Link href="/" className="font-black text-xl tracking-tight text-[#123e80] flex items-center gap-2.5">
-            <span className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-black shadow-sm">AZ</span>
-            ART Звезда
+          <Link href="/" className="font-black text-xl tracking-tight text-[#123e80] flex items-center gap-3">
+            <img src={OFFICIAL_LOGO} alt="Творческое объединение Триумф" className="h-9 w-auto max-w-[150px] object-contain" />
+            <span>ART Звезда</span>
           </Link>
           <span className="text-xs bg-emerald-100 text-emerald-900 font-extrabold px-3 py-1 rounded-full border border-emerald-300">
             Панель оргкомитета · Сезон 2026
