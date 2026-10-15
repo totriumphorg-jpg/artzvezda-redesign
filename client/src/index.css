@@ -103,9 +103,9 @@ body {
 }
 
 .section-grid {
-  max-width: 1480px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 24px;
 }
 
 /* Glass Header */
@@ -122,9 +122,9 @@ body {
 }
 
 .header-inner {
-  max-width: 1480px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   height: 76px;
   display: flex;
   align-items: center;
@@ -287,9 +287,9 @@ body {
 .hero {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: 26px;
-  padding-top: 38px;
-  padding-bottom: 30px;
+  gap: 22px;
+  padding-top: 32px;
+  padding-bottom: 24px;
   align-items: center;
   position: relative;
 }
@@ -437,8 +437,8 @@ body {
 
 /* Wide About Section - Eliminating Empty Left Space */
 .intro {
-  padding-top: 38px;
-  padding-bottom: 30px;
+  padding-top: 28px;
+  padding-bottom: 24px;
   border-top: 1px solid var(--line-color);
 }
 

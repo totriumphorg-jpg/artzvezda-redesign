@@ -201,20 +201,6 @@ export default function Home() {
             <a href="#apply" className="button button-primary">Подать заявку ↘</a>
             <a href="#rules" className="button button-ghost">Читать положение</a>
           </div>
-          <div className="hero-details">
-            <div>
-              <span>СРОКИ ПРОВЕДЕНИЯ</span>
-              <strong>{comp.startDate ? `${comp.startDate} — ${comp.endDate}` : "9 сентября — 11 октября 2026"}</strong>
-            </div>
-            <div>
-              <span>ВЗНОС ЗА НОМИНАЦИЮ</span>
-              <strong>{comp.priceDiscount || 1300} ₽ <span className="line-through text-[#5b7fba] font-normal">{comp.priceRegular || 1700} ₽</span></strong>
-            </div>
-            <div>
-              <span>ФОРМАТ</span>
-              <strong>онлайн · из любой точки</strong>
-            </div>
-          </div>
         </div>
 
         <div className="hero-image-wrap">
