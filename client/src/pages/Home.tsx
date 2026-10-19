@@ -4,13 +4,7 @@ import {
   CheckCircle2,
   ChevronDown,
   Sparkles,
-  Music2,
-  Theater,
-  Palette,
   ExternalLink,
-  ShieldCheck,
-  Award,
-  Globe2,
   Phone,
   Mail,
   Send,
@@ -60,7 +54,8 @@ function Logo() {
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [activeRuleTab, setActiveRuleTab] = useState<string>("goals");
+  const [openRule, setOpenRule] = useState<string | null>("goals");
+  const [activeResultIndex, setActiveResultIndex] = useState(0);
 
   const [comp, setComp] = useState<any>({
     title: "I Международный конкурс музыкально-художественного творчества «AUTUMN IN LONDON»",
@@ -107,7 +102,7 @@ export default function Home() {
         if (data && data.title) {
           setComp(data);
           if (data.rulesSections?.length > 0) {
-            setActiveRuleTab(data.rulesSections[0].id);
+            setOpenRule(data.rulesSections[0].id);
           }
         }
       })
@@ -140,7 +135,7 @@ export default function Home() {
     }
   };
 
-  const activeSection = comp.rulesSections?.find((s: any) => s.id === activeRuleTab) || comp.rulesSections?.[0];
+  const activeResult = comp.results?.[activeResultIndex] || comp.results?.[0];
 
   return (
     <div className="landing-wrap" id="top">
@@ -156,10 +151,8 @@ export default function Home() {
           <nav className="desktop-nav" aria-label="Основное меню">
             <a href="#about">О конкурсе</a>
             <a href="#rules">Положение</a>
-            <a href="#genres">Номинации</a>
             <a href="#results">Итоги</a>
             <a href="#faq">Вопросы</a>
-            <a href="/admin" className="text-[#3a6cb2] hover:text-blue-700 transition-colors">Вход оргкомитета</a>
           </nav>
           <a href="#apply" className="button button-primary header-cta">
             Подать заявку <ArrowRight className="w-4 h-4 inline ml-1.5" />
@@ -177,10 +170,8 @@ export default function Home() {
         <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>О конкурсе</a>
           <a href="#rules" onClick={() => setMobileMenuOpen(false)}>Положение</a>
-          <a href="#genres" onClick={() => setMobileMenuOpen(false)}>Номинации</a>
           <a href="#results" onClick={() => setMobileMenuOpen(false)}>Итоги</a>
           <a href="#faq" onClick={() => setMobileMenuOpen(false)}>Вопросы</a>
-          <a href="/admin" onClick={() => setMobileMenuOpen(false)}>Вход оргкомитета</a>
           <a href="#apply" className="button button-primary" onClick={() => setMobileMenuOpen(false)}>Подать заявку</a>
         </div>
       </header>
@@ -197,9 +188,10 @@ export default function Home() {
           <p className="hero-lead">
             {comp.leadParagraph || "Покажите свою работу профессиональному жюри — получите признание, официальный диплом и следующий шаг в творческом пути."}
           </p>
-          <div className="hero-actions">
-            <a href="#apply" className="button button-primary">Подать заявку ↘</a>
-            <a href="#rules" className="button button-ghost">Читать положение</a>
+          <div className="hero-quick-actions" aria-label="Основные действия">
+            <a href="#rules" className="quick-action quick-action-rules">Положение <ArrowRight className="w-4 h-4" /></a>
+            <a href="#pricing" className="quick-action quick-action-price">Стоимость <ArrowRight className="w-4 h-4" /></a>
+            <a href="#apply" className="quick-action quick-action-apply">Подать заявку <ArrowRight className="w-4 h-4" /></a>
           </div>
         </div>
 
@@ -241,23 +233,17 @@ export default function Home() {
 
           <div className="trust-row">
             <div className="trust-card">
-              <div className="trust-icon-wrap icon-blue">
-                <Globe2 className="w-5 h-5" />
-              </div>
+              <div className="trust-emblem"><span>01</span><small>ART</small></div>
               <strong>Международный диплом</strong>
               <span>На официальном гербовом бланке за подписью экспертного совета</span>
             </div>
             <div className="trust-card">
-              <div className="trust-icon-wrap icon-purple">
-                <Award className="w-5 h-5" />
-              </div>
+              <div className="trust-emblem"><span>02</span><small>JURY</small></div>
               <strong>Экспертная оценка</strong>
               <span>Профильное жюри из Лондона и ведущих театров страны</span>
             </div>
             <div className="trust-card">
-              <div className="trust-icon-wrap icon-coral">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
+              <div className="trust-emblem"><span>03</span><small>OFFICIAL</small></div>
               <strong>Официальный статус</strong>
               <span>При поддержке комитетов культуры и профильного образования</span>
             </div>
@@ -275,74 +261,38 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="rules-container">
-          <div className="rules-tabs">
-            {comp.rulesSections?.map((section: any) => (
-              <button
-                key={section.id}
-                onClick={() => setActiveRuleTab(section.id)}
-                className={`rules-tab-btn ${activeRuleTab === section.id ? "active" : ""}`}
-              >
-                {section.title}
-              </button>
-            ))}
-          </div>
-
-          <div className="rules-content-card">
-            <div>
-              {activeSection && (
-                <>
-                  <h3>{activeSection.title}</h3>
-                  <div className="rules-text-body">
-                    {activeSection.content.split("\n").map((par: string, idx: number) => (
-                      <p key={idx}>{par}</p>
+        <div className="rules-accordion">
+          {comp.rulesSections?.map((section: any, idx: number) => {
+            const isOpen = openRule === section.id;
+            return (
+              <div key={section.id} className={`rule-accordion-item ${isOpen ? "open" : ""}`}>
+                <button
+                  type="button"
+                  className="rule-accordion-trigger"
+                  onClick={() => setOpenRule(isOpen ? null : section.id)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="rule-number">{String(idx + 1).padStart(2, "0")}</span>
+                  <span className="rule-title">{section.title}</span>
+                  <ChevronDown className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                </button>
+                {isOpen && (
+                  <div className="rule-accordion-content">
+                    {section.content.split("\n").map((par: string, paragraphIndex: number) => (
+                      <p key={paragraphIndex}>{par}</p>
                     ))}
                   </div>
-                </>
-              )}
-            </div>
-
-            <div className="rules-footer-note">
-              <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-blue-600" />
-                <span>Официальная редакция регламента ТО «Триумф» · 2026 г.</span>
+                )}
               </div>
-              <a href="#faq" className="text-blue-700 hover:underline">
-                Частые вопросы по регламенту →
-              </a>
+            );
+          })}
+          <div className="rules-footer-note">
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-blue-600" />
+              <span>Официальная редакция регламента ТО «Триумф» · 2026 г.</span>
             </div>
+            <a href="#faq" className="text-blue-700 hover:underline">Частые вопросы по регламенту →</a>
           </div>
-        </div>
-      </section>
-
-      {/* Disciplines Section */}
-      <section className="directions section-grid" id="genres">
-        <div className="directions-header">
-          <span className="eyebrow">НОМИНАЦИИ</span>
-          <h2>Искусство говорит <span className="gradient-text italic font-serif">на разных языках</span>.</h2>
-        </div>
-        <div className="discipline-photo">
-          <img src={ASSETS.disciplines} alt="Предметы искусства" />
-          <div className="photo-caption">10 конкурсных направлений</div>
-        </div>
-        <div className="genre-list">
-          {GENRES.slice(0, 5).map((g, idx) => (
-            <div key={idx} className="genre-item">
-              <span className="genre-index">{`0${idx + 1}`}</span>
-              <span className={`genre-icon-badge badge-${idx + 1}`}>
-                {idx === 0 && <Sparkles className="w-4 h-4" />}
-                {idx === 1 && <Music2 className="w-4 h-4" />}
-                {idx === 2 && <Award className="w-4 h-4" />}
-                {idx === 3 && <Palette className="w-4 h-4" />}
-                {idx === 4 && <Theater className="w-4 h-4" />}
-              </span>
-              <div className="genre-copy">
-                <h3>{g.split("(")[0]}</h3>
-                <p>{g.includes("(") ? `(${g.split("(")[1]}` : "Все исполнительские формы"}</p>
-              </div>
-              <span className="genre-arrow">↗</span>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -356,36 +306,28 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="results-grid-wide">
+        <div className="results-report-picker" role="tablist" aria-label="Отчёты по конкурсам">
           {comp.results?.map((res: any, idx: number) => (
-            <div key={idx} className="result-card-wide">
-              <div className="result-card-info">
-                <span className="result-date-badge">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Дата публикации: {res.publishedDate}
-                </span>
-                <h3>{res.title}</h3>
-                <p>{res.description}</p>
-              </div>
-
-              <div className="result-card-actions">
-                <div className="result-status-pill">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                  <span>Протоколы жюри утверждены и разосланы</span>
-                </div>
-                <div className="result-links-wide">
-                  {res.vkUrl && (
-                    <a href={res.vkUrl} target="_blank" rel="noreferrer" className="button button-ghost text-xs">
-                      Группа ВКонтакте <ExternalLink className="w-3.5 h-3.5 inline ml-1.5" />
-                    </a>
-                  )}
-                  <a href="#apply" className="button button-primary text-xs">
-                    Подать заявку на сезон
-                  </a>
-                </div>
-              </div>
-            </div>
+            <button key={idx} type="button" role="tab" aria-selected={activeResultIndex === idx} className={`results-report-tab ${activeResultIndex === idx ? "active" : ""}`} onClick={() => setActiveResultIndex(idx)}>
+              <span>{String(idx + 1).padStart(2, "0")}</span>
+              {res.title}
+            </button>
           ))}
         </div>
+
+        {activeResult && (
+          <div className="result-card-wide result-report-card">
+            <div className="result-card-info">
+              <span className="result-date-badge"><CheckCircle2 className="w-3.5 h-3.5" /> Дата публикации: {activeResult.publishedDate}</span>
+              <h3>{activeResult.title}</h3>
+              <p>{activeResult.description}</p>
+            </div>
+            <div className="result-card-actions">
+              <div className="result-status-pill"><span className="w-2 h-2 rounded-full bg-emerald-500"></span><span>Протоколы жюри утверждены и разосланы</span></div>
+              {activeResult.vkUrl && <a href={activeResult.vkUrl} target="_blank" rel="noreferrer" className="button button-ghost text-xs">Открыть отчёт <ExternalLink className="w-3.5 h-3.5 inline ml-1.5" /></a>}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Application Form */}
@@ -396,7 +338,7 @@ export default function Home() {
           <p className="mt-3 leading-relaxed">
             Заполните форму участия. После нажатия «Отправить и оплатить» данные безопасно сохраняются в системе, а вы переходите к оплате организационного взноса.
           </p>
-          <div className="fee-highlight-card mt-6">
+          <div className="fee-highlight-card mt-6" id="pricing">
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="w-4 h-4 text-amber-500" />
               <strong>Организационный взнос: {comp.priceDiscount || 1300} ₽</strong>
@@ -652,9 +594,6 @@ export default function Home() {
                 </a>
                 <a href="https://t.me/TO_Triumph" target="_blank" rel="noreferrer" className="social-badge tg">
                   <Send className="w-3.5 h-3.5 mr-1" /> Telegram
-                </a>
-                <a href="/admin" className="social-badge admin-link">
-                  Панель управления
                 </a>
               </div>
             </div>
