@@ -233,17 +233,17 @@ export default function Home() {
 
           <div className="trust-row">
             <div className="trust-card">
-              <div className="trust-emblem"><span>01</span><small>ART</small></div>
+              <div className="trust-emblem"><span>01</span><small>ДИПЛОМ</small></div>
               <strong>Международный диплом</strong>
               <span>На официальном гербовом бланке за подписью экспертного совета</span>
             </div>
             <div className="trust-card">
-              <div className="trust-emblem"><span>02</span><small>JURY</small></div>
+              <div className="trust-emblem"><span>02</span><small>ЖЮРИ</small></div>
               <strong>Экспертная оценка</strong>
               <span>Профильное жюри из Лондона и ведущих театров страны</span>
             </div>
             <div className="trust-card">
-              <div className="trust-emblem"><span>03</span><small>OFFICIAL</small></div>
+              <div className="trust-emblem"><span>03</span><small>СТАТУС</small></div>
               <strong>Официальный статус</strong>
               <span>При поддержке комитетов культуры и профильного образования</span>
             </div>
