@@ -51,6 +51,42 @@ function Logo() {
   );
 }
 
+type TrustIconKind = "diploma" | "jury" | "status";
+
+function TrustIcon({ kind }: { kind: TrustIconKind }) {
+  if (kind === "diploma") {
+    return (
+      <svg className="trust-icon-svg" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M20 10h22l9 9v28a7 7 0 0 1-7 7H20a7 7 0 0 1-7-7V17a7 7 0 0 1 7-7Z" />
+        <path d="M42 10v10h9M22 27h20M22 33h15" />
+        <circle cx="32" cy="45" r="8" />
+        <path className="trust-icon-accent" d="m27 51-2 8 7-4 7 4-2-8M29 45l2-3 2 3 3 .7-2 2.4.4 3.2-3.4-1.4-3.4 1.4.4-3.2-2-2.4Z" />
+      </svg>
+    );
+  }
+
+  if (kind === "jury") {
+    return (
+      <svg className="trust-icon-svg" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="25" r="11" />
+        <path className="trust-icon-accent" d="m32 16 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" />
+        <path d="M18 53c1.5-7.5 6-11 14-11s12.5 3.5 14 11M15 39c-4.3 2.1-6.4 5.7-6.8 10M49 39c4.3 2.1 6.4 5.7 6.8 10" />
+        <path className="trust-icon-accent" d="M10 25c1.5 4.1 4.2 7 8 8M54 25c-1.5 4.1-4.2 7-8 8" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className="trust-icon-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M32 8 49 14v14c0 12-7.3 21.3-17 27-9.7-5.7-17-15-17-27V14Z" />
+      <path className="trust-icon-accent" d="m24 31 5 5 11-12" />
+      <path d="M24 18h16M24 45h16" />
+      <circle className="trust-icon-accent" cx="47" cy="47" r="6" />
+      <path className="trust-icon-accent" d="m44 47 2 2 4-5" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -233,17 +269,17 @@ export default function Home() {
 
           <div className="trust-row">
             <div className="trust-card">
-              <div className="trust-emblem"><span>01</span><small>ДИПЛОМ</small></div>
+              <div className="trust-emblem trust-emblem-diploma"><TrustIcon kind="diploma" /></div>
               <strong>Международный диплом</strong>
               <span>На официальном гербовом бланке за подписью экспертного совета</span>
             </div>
             <div className="trust-card">
-              <div className="trust-emblem"><span>02</span><small>ЖЮРИ</small></div>
+              <div className="trust-emblem trust-emblem-jury"><TrustIcon kind="jury" /></div>
               <strong>Экспертная оценка</strong>
               <span>Профильное жюри из Лондона и ведущих театров страны</span>
             </div>
             <div className="trust-card">
-              <div className="trust-emblem"><span>03</span><small>СТАТУС</small></div>
+              <div className="trust-emblem trust-emblem-status"><TrustIcon kind="status" /></div>
               <strong>Официальный статус</strong>
               <span>При поддержке комитетов культуры и профильного образования</span>
             </div>

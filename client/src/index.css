@@ -588,8 +588,23 @@ body {
   box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.14), 0 8px 16px rgba(18, 62, 128, 0.18);
 }
 
-.trust-emblem span { font-size: 20px; font-weight: 900; line-height: 1; }
-.trust-emblem small { color: #f5d58f; font-size: 8px; font-weight: 900; letter-spacing: 0.08em; }
+.trust-emblem-diploma { background: linear-gradient(145deg, #163d82, #2856a3); }
+.trust-emblem-jury { background: linear-gradient(145deg, #244b91, #3568b4); }
+.trust-emblem-status { background: linear-gradient(145deg, #173b78, #2d5a9e); }
+
+.trust-icon-svg {
+  width: 47px;
+  height: 47px;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trust-icon-svg .trust-icon-accent {
+  stroke: #f2ce83;
+}
 
 .trust-icon-wrap {
   width: 48px;
@@ -1572,8 +1587,7 @@ body {
     margin: 0;
     border-radius: 16px;
   }
-  .trust-emblem span { font-size: 17px; }
-  .trust-emblem small { font-size: 7px; }
+  .trust-icon-svg { width: 42px; height: 42px; }
   .trust-card strong { font-size: 16px; margin: 0; }
   .trust-card span { font-size: 13.5px; line-height: 1.42; }
   .rules-content-card,
