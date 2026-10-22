@@ -359,7 +359,6 @@ export default function Home() {
               <p>{activeResult.description}</p>
             </div>
             <div className="result-card-actions">
-              <div className="result-status-pill"><span className="w-2 h-2 rounded-full bg-emerald-500"></span><span>Протоколы жюри утверждены и разосланы</span></div>
               {activeResult.vkUrl && <a href={activeResult.vkUrl} target="_blank" rel="noreferrer" className="button button-ghost text-xs">Открыть отчёт <ExternalLink className="w-3.5 h-3.5 inline ml-1.5" /></a>}
             </div>
           </div>
