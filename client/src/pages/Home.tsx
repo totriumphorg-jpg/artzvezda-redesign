@@ -4,7 +4,7 @@ import {
   CheckCircle2,
   ChevronDown,
   Sparkles,
-  ExternalLink,
+  X,
   Phone,
   Mail,
   Send,
@@ -36,6 +36,28 @@ const AGE_GROUPS = [
   "старше 25 лет",
   "смешанная группа",
 ];
+
+const AUTUMN_REPORT = {
+  title: 'Итоги III Международного конкурса музыкально-художественного творчества «AUTUMN IN LONDON»',
+  date: '11 сентября – 12 сентября 2026 г.',
+  intro:
+    'Международный online-конкурс учрежден CA Triumph – Творческим объединением «Триумф» и состоялся в заочном формате при поддержке Международной академии музыки Елены Образцовой, инновационной образовательной платформы ARTCOMPASS и Санкт-Петербургской Академии последипломного образования.',
+  geography:
+    'На заочной сцене платформы ARTZVEZDA свои таланты показали конкурсанты из таких стран и городов, как: Казань, Челябинск, Екатеринбург, Пенза, Красногорск, Калининград, Барнаул, Долгопрудный, Брянск, Могилев, Братск, Обнинск, Москва, Иркутск, Житковичи (Республика Беларусь), Барабинск (Новосибирская область), Оренбург и другие города.',
+  juryIntro: 'В экспертном совете проекта выступили ведущие специалисты в области культуры и искусства:',
+  jury: [
+    'Юки Негиши (Великобритания, Лондон) – пианистка, педагог, композитор. Выступает с сольными концертами, как солистка с оркестрами и в составе камерных ансамблей в Великобритании, Нидерландах, Франции, Германии, Швейцарии, Италии, Румынии, Японии, Китае и США. Сотрудничает с музыкантами Королевского филармонического оркестра, Японского филармонического оркестра, оркестра Цюрихского Тонхалле, Королевского оркестра Концертгебау. Член жюри Международного фортепианного конкурса в Сассексе. Член Piano Week.',
+    'Ячао Чжу (Великобритания, Лондон) – хореограф, танцовщица, художница. Получила степень бакалавра изящных искусств в области танца в Центральном университете национальностей Китая, работала в Пекинском театре танца. Получила степень магистра изящных искусств в области танца в Школе искусств Тиш Нью-Йоркского университета. Удостоена многих национальных и международных наград: стипендии Полетт Годдард от Школы искусств Тиш Нью-Йоркского университета, стипендии Тринити Лабан в области танца, премии «Выдающийся преподаватель» от Центрального университета национальностей и др. Проводила мастер-классы во многих университетах и академиях искусств.',
+    'Дмитрий Девдариани (Великобритания, Лондон) – театральный режиссёр, работающий на различных площадках Лондона и Эдинбурга, поставил множество современных и классических пьес. Также он актёр, драматург, поэт, преподаватель, сценарист, художник. Художественный руководитель Театра русской классики в Лондоне и один из режиссёров фестиваля «Звёзды Альбиона». Дмитрий – лауреат конкурса сценаристов имени Роберта Редфорда, а также лауреат фестиваля «Звёзды Альбиона».',
+    'Ольга Адамович Базиле (Великобритания, Лондон) – оперная певица, преподаватель вокала, профессор музыки, окончила Санкт-Петербургскую консерваторию имени Н. А. Римского-Корсакова, Болонскую консерваторию и Музыкальный институт Реджо-Эмилии, живёт в Великобритании, в Лондоне. Лауреат международных конкурсов. Обладательница наград за художественные достижения Оперной академии бельканто Миреллы Френи и серебряной медали города Рима.',
+    'Индра Теджасукмана (Германия, Дортмунд) – вокалист, преподаватель Музыкальной академии и руководитель хора, проживающий в Дортмунде, Германия. Специализируется на эстрадных и джазовых вокальных стилях, является участником профессиональной а капелла-группы «Blended» из Берлина. Преподаёт вокальное исполнительство, эстрадный хор и постановку голоса в Музыкальном университете Мюнстера. Также преподаёт джазовый хор, гармонию и развитие слуха в Джазовой академии в Дортмунде. Автор нескольких учебных книг в области вокальной музыки.',
+  ],
+  prizesTitle: 'СПЕЦИАЛЬНЫЕ ПРИЗЫ и ГРАН-ПРИ I Международного конкурса музыкально-художественного творчества «AUTUMN IN LONDON»',
+  prizes: [
+    'Специальным призом «За высокий уровень исполнительского мастерства», а также сертификатом от Академии иностранных языков MLA награждаются:\nГорфункель Даниэль, преп. Терехина Наталья Вячеславовна\nТеатральное объединение «СОВА», преп. Кочнева Юлиана Васильевна\nКодалаева Милана, преп. Собиева Руслана Валерьевна',
+    'Специальным призом «За высокий уровень исполнительного креативности», а также сертификатом от Академии иностранных языков MLA награждаются:\nФольклорный инструментальный ансамбль «Просто класс», преп. Матвеева Татьяна Александровна, Селина Елена Анатольевна',
+  ],
+};
 
 const ASSETS = {
   hero: "/manus-storage/artzvezda-hero_70ad2501.jpg",
@@ -92,6 +114,7 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [openRule, setOpenRule] = useState<string | null>("goals");
   const [activeResultIndex, setActiveResultIndex] = useState(0);
+  const [isReportOpen, setIsReportOpen] = useState(false);
 
   const [comp, setComp] = useState<any>({
     title: "I Международный конкурс музыкально-художественного творчества «AUTUMN IN LONDON»",
@@ -144,6 +167,20 @@ export default function Home() {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!isReportOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsReportOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isReportOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -359,11 +396,43 @@ export default function Home() {
               <p>{activeResult.description}</p>
             </div>
             <div className="result-card-actions">
-              {activeResult.vkUrl && <a href={activeResult.vkUrl} target="_blank" rel="noreferrer" className="button button-ghost text-xs">Открыть отчёт <ExternalLink className="w-3.5 h-3.5 inline ml-1.5" /></a>}
+              <button type="button" className="button button-ghost text-xs" onClick={() => setIsReportOpen(true)}>
+                Открыть отчёт <FileText className="w-3.5 h-3.5 inline ml-1.5" />
+              </button>
             </div>
           </div>
         )}
       </section>
+
+      {isReportOpen && (
+        <div className="report-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsReportOpen(false); }}>
+          <div className="report-modal" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+            <div className="report-modal-header">
+              <div>
+                <span className="eyebrow">ОТЧЁТ КОНКУРСА</span>
+                <h2 id="report-modal-title">{AUTUMN_REPORT.title}</h2>
+                <p className="report-modal-date">{AUTUMN_REPORT.date}</p>
+              </div>
+              <button type="button" className="report-modal-close" aria-label="Закрыть отчёт" onClick={() => setIsReportOpen(false)}>
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="report-modal-body">
+              <p>{AUTUMN_REPORT.intro}</p>
+              <p>{AUTUMN_REPORT.geography}</p>
+              <h3>Экспертный совет</h3>
+              <p>{AUTUMN_REPORT.juryIntro}</p>
+              <div className="report-jury-list">
+                {AUTUMN_REPORT.jury.map((member) => <p key={member}>{member}</p>)}
+              </div>
+              <h3>{AUTUMN_REPORT.prizesTitle}</h3>
+              {AUTUMN_REPORT.prizes.map((prize) => (
+                <p className="report-prize" key={prize}>{prize}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Application Form */}
       <section className="apply-section section-grid" id="apply">
