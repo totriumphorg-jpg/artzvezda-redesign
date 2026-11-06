@@ -11,6 +11,12 @@ export async function getDbCompetition(): Promise<any> {
     const rows = await db.select().from(competitions).where(eq(competitions.id, "autumn-in-london-2026")).limit(1);
     if (rows.length > 0) {
       const c = rows[0];
+      // The JSON package is the approved content migration for the new season.
+      // Do not keep serving the previous AUTUMN record while the database is
+      // being synchronized through the admin panel.
+      if (c.code === "AUTUMN IN LONDON" && defaultCompetition.code !== c.code) {
+        return defaultCompetition;
+      }
       return {
         id: c.id,
         code: c.code,

@@ -117,18 +117,18 @@ export default function Home() {
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const [comp, setComp] = useState<any>({
-    title: "I Международный конкурс музыкально-художественного творчества «AUTUMN IN LONDON»",
-    seasonBadge: "AUTUMN IN LONDON",
-    startDate: "2026-09-09",
-    endDate: "2026-10-11",
-    priceDiscount: 1300,
+    title: 'II INTERNATIONAL COMPETITION OF MUSIC AND ARTS"VIENNA ART FESTIVAL"',
+    seasonBadge: "VIENNA ART FESTIVAL",
+    startDate: "2026-10-01",
+    endDate: "2026-11-15",
+    priceDiscount: 1700,
     priceRegular: 1700,
-    priceReduced: 790,
+    priceReduced: 990,
     bannerUrl: ASSETS.hero,
     aboutText:
-      "Лондон — город, где туман над Темзой соседствует с неоновыми огнями, а классические музеи спорят с дерзким стрит-артом Ист-Энда. Мы приглашаем участников заявить о себе в конкурсе, вдохновлённом британской столицей, которая веками соединяет традиции и бунтарский дух. Жюри ждёт работ, в которых есть глубина, стиль и лондонская свобода самовыражения.",
+      "Вена — город, где величественные дворцы Габсбургов соседствуют с уютными кофейнями, а музыка Моцарта и Штрауса словно звучит прямо на улицах. Мы приглашаем участников прикоснуться к этой изысканной атмосфере и создать работы, достойные столицы классического искусства и венского модерна. Жюри конкурса, ценящее гармонию, элегантность и смелость, ждёт ярких идей и подлинного вдохновения. Присоединяйтесь, чтобы вписать свою ноту в венскую симфонию творчества.",
     noticeText:
-      "ВНИМАНИЕ! Сильнейшие артисты заочного конкурса будут награждены грантами на участие в очном конкурсе Творческого объединения «Триумф» в 2026 году!",
+      "Подача заявок на конкурс осуществляется до 15 ноября 2026 года. Сильнейшие участники получают возможность претендовать на специальные призы, гранты и приглашения на проекты Творческого объединения «Триумф».",
     rulesSections: [],
     faqs: [],
     results: [],
@@ -276,7 +276,7 @@ export default function Home() {
           />
           <div className="hero-figure-card">
             <span className="year">2026</span>
-            <span className="city">{comp.seasonBadge || "AUTUMN IN LONDON"}</span>
+            <span className="city">{comp.seasonBadge || "VIENNA ART FESTIVAL"}</span>
           </div>
           <div className="hero-sticker">★ ОТКРЫВАЕМ ТАЛАНТЫ</div>
         </div>
@@ -289,12 +289,12 @@ export default function Home() {
             <span className="eyebrow m-0">О ТЕКУЩЕМ КОНКУРСЕ</span>
             <div className="intro-stage-badge">
               <span className="intro-stage-num">01</span>
-              <span>СЕЗОН 2026 · ART ЗВЕЗДА</span>
+              <span>КОНКУРС 2026 · ART ЗВЕЗДА</span>
             </div>
           </div>
 
           <h2>
-            {comp.title ? comp.title.split("«")[1]?.replace("»", "") || comp.title : "Autumn in London"}
+            {comp.code || "VIENNA ART FESTIVAL"}
           </h2>
 
           <div className="intro-copy-wide">
@@ -308,17 +308,17 @@ export default function Home() {
             <div className="trust-card">
               <div className="trust-emblem trust-emblem-diploma"><TrustIcon kind="diploma" /></div>
               <strong>Международный диплом</strong>
-              <span>На официальном гербовом бланке за подписью экспертного совета</span>
+              <span>На английском языке, на официальном бланке, с подписью экспертного совета и печатью организатора</span>
             </div>
             <div className="trust-card">
               <div className="trust-emblem trust-emblem-jury"><TrustIcon kind="jury" /></div>
               <strong>Экспертная оценка</strong>
-              <span>Профильное жюри из Лондона и ведущих театров страны</span>
+              <span>Ведущие иностранные музыканты и артисты</span>
             </div>
             <div className="trust-card">
               <div className="trust-emblem trust-emblem-status"><TrustIcon kind="status" /></div>
               <strong>Официальный статус</strong>
-              <span>При поддержке комитетов культуры и профильного образования</span>
+              <span>При информационной поддержке комитетов культуры</span>
             </div>
           </div>
         </div>
@@ -396,9 +396,13 @@ export default function Home() {
               <p>{activeResult.description}</p>
             </div>
             <div className="result-card-actions">
-              <button type="button" className="button button-ghost text-xs" onClick={() => setIsReportOpen(true)}>
-                Открыть отчёт <FileText className="w-3.5 h-3.5 inline ml-1.5" />
-              </button>
+              {activeResult.reportAvailable === false || activeResult.publishedDate === "После завершения конкурса" ? (
+                <span className="result-pending-note">Отчёт будет опубликован после завершения конкурса</span>
+              ) : (
+                <button type="button" className="button button-ghost text-xs" onClick={() => setIsReportOpen(true)}>
+                  Открыть отчёт <FileText className="w-3.5 h-3.5 inline ml-1.5" />
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -445,9 +449,9 @@ export default function Home() {
           <div className="fee-highlight-card mt-6" id="pricing">
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="w-4 h-4 text-amber-500" />
-              <strong>Организационный взнос: {comp.priceDiscount || 1300} ₽</strong>
+              <strong>Организационный взнос: {comp.priceDiscount || 1700} ₽</strong>
             </div>
-            <p>Для подтверждения льготного участия ({comp.priceReduced || 790} ₽) напишите на hello@artzvezda.com.</p>
+            <p>Для подтверждения льготного участия ({comp.priceReduced || 990} ₽) напишите на hello@artzvezda.com.</p>
           </div>
         </div>
 
