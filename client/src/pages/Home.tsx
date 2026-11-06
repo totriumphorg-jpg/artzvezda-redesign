@@ -270,9 +270,18 @@ export default function Home() {
 
         <div className="hero-image-wrap">
           <img
-            src={comp.bannerUrl || ASSETS.hero}
+            src={comp.bannerUrl?.startsWith("/manus-storage/") ? comp.bannerUrl : ASSETS.hero}
             alt="Молодые артисты выступают на сцене"
             className="hero-image"
+            onError={(event) => {
+              const image = event.currentTarget;
+              if (image.dataset.fallbackApplied) {
+                image.style.display = "none";
+                return;
+              }
+              image.dataset.fallbackApplied = "true";
+              image.src = ASSETS.hero;
+            }}
           />
           <div className="hero-figure-card">
             <span className="year">2026</span>
