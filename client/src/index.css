@@ -1658,6 +1658,70 @@ body {
 }
 
 @media (max-width: 640px) {
+  .footer-wrap {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px 22px;
+  }
+  .footer-revitalized {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 24px;
+    padding: 22px 18px 18px;
+  }
+  .footer-hero-bar {
+    align-items: stretch;
+    gap: 18px;
+    padding-bottom: 22px;
+  }
+  .footer-brand-side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(132px, 0.8fr);
+    align-items: center;
+    gap: 12px;
+  }
+  .footer-brand-side .official-logo {
+    width: min(100%, 168px);
+  }
+  .footer-live-badge {
+    justify-content: center;
+    min-width: 0;
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .footer-hero-bar > .button {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 52px;
+  }
+  .footer-main-grid {
+    gap: 22px;
+    padding: 22px 0;
+  }
+  .footer-col-about p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .footer-contact-cards,
+  .contact-pill {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .contact-pill {
+    min-height: 50px;
+    padding: 11px 13px;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+  .footer-bottom-bar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
   .hero-quick-actions { grid-template-columns: 1fr; gap: 9px; }
   .quick-action { min-height: 52px; }
   .report-modal-backdrop { align-items: flex-end; padding: 10px; touch-action: none; }
