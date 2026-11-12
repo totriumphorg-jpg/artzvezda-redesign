@@ -65,6 +65,11 @@ const ASSETS = {
   triumphLogo: "/manus-storage/triumph-official_aaece090.svg",
 };
 
+const APPROVED_LEAD_COPY =
+  "Покажите своё творчество миру, получите обратную связь от профессионального жюри из разных стран и диплом международного образца. Сделайте новый шаг на творческом пути вместе с онлайн-проектом ARTZVEZDA.";
+const LEGACY_LEAD_COPY =
+  "Покажите свою работу профессиональному жюри — получите международный диплом, экспертную оценку и новый шаг в творческом пути.";
+
 function Logo() {
   return (
     <a href="#top" className="brand-logo" aria-label="Триумф — на главную">
@@ -125,6 +130,7 @@ export default function Home() {
     priceRegular: 1700,
     priceReduced: 990,
     bannerUrl: ASSETS.hero,
+    leadParagraph: APPROVED_LEAD_COPY,
     aboutText:
       "Вена — город, где величественные дворцы Габсбургов соседствуют с уютными кофейнями, а музыка Моцарта и Штрауса словно звучит прямо на улицах. Мы приглашаем участников прикоснуться к этой изысканной атмосфере и создать работы, достойные столицы классического искусства и венского модерна. Жюри конкурса, ценящее гармонию, элегантность и смелость, ждёт ярких идей и подлинного вдохновения. Присоединяйтесь, чтобы вписать свою ноту в венскую симфонию творчества.",
     noticeText:
@@ -259,7 +265,7 @@ export default function Home() {
             {comp.title || "Талант достоин большой сцены"}
           </h1>
           <p className="hero-lead">
-            {comp.leadParagraph || "Покажите свою работу профессиональному жюри — получите признание, официальный диплом и следующий шаг в творческом пути."}
+            {comp.leadParagraph && comp.leadParagraph !== LEGACY_LEAD_COPY ? comp.leadParagraph : APPROVED_LEAD_COPY}
           </p>
           <div className="hero-quick-actions" aria-label="Основные действия">
             <a href="#rules" className="quick-action quick-action-rules">Положение <ArrowRight className="w-4 h-4" /></a>
